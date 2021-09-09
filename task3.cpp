@@ -12,11 +12,10 @@ int main()
 	scanf_s("%d", &N);
 	arr = (int*)malloc(N * sizeof(int));
 	srand(time(NULL));
+	printf("Массив: ");
 	for (i = 0; i < N; i++)
 	{
 		arr[i] = rand() % 100;
-	}
-	printf("Массив: ");
-	for (i = 0; i < N; i++)
 		printf("%d ", arr[i]);
+	}		
 }
