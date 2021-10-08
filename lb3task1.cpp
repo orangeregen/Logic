@@ -4,7 +4,8 @@
 #include <Windows.h>
 
 int N1, N2;
-int** M1, ** M2, ** M1result, ** M2result, ** M3result, ** UnionResult, ** ProductResult, ** SumResult;
+int** M1, ** M2, ** M1result, ** M2result, ** M3result, ** UnionResult, ** ProductResult, ** SumResult, ** DekartResult, ** MR;
+int p = -1, q = -1;
 
 int** otozh(int vertexmin, int vertexmax, int** matrix, int size);
 void printmatrix(int** source, int size);
@@ -298,26 +299,82 @@ int main()
 
         /*Декартово произведение графов*/
         case 7:
+            //Создание масива для записи результата
+            DekartResult = (int**)malloc((N2*N1) * sizeof(int*));
+            for (int i = 0; i < N2*N1; i++)
+                DekartResult[i] = (int*)malloc((N2*N1) * sizeof(int));
             
             //Вывод результата
             printf("\n\nРезультат:\n");
             for (int i = 0; i < N1; i++)
+            {
+                //q = 0;
                 for (int k = 0; k < N2; k++)
                 {
+                    p = -1;
+                    q++;
                     printf("\n");
                     for (int j = 0; j < N1; j++)
+                    {
                         for (int l = 0; l < N2; l++)
                         {
-
+                            p++;
                             if (i == j)
+                            {
+                                DekartResult[q][p] = M2[k][l];
                                 printf("%3d ", M2[k][l]);
-                            else if (k == l)
+                            }
+                               
+                            else if (k == l) {
+                                DekartResult[q][p] = M1[i][j];
                                 printf("%3d ", M1[i][j]);
-                            else if (i != j && k != l)
+                            }
+                            else if (i != j && k != l) {
+                                DekartResult[q][p] = 0;
                                 printf("%3d ", 0);
+                            }
                         }
+                    }
+                        
                 }
+            }
+                
 
+            MR = (int**)malloc((N2 * N1) * sizeof(int*));
+            for (int i = 0; i < N2 * N1; i++)
+                MR[i] = (int*)malloc((N2 * N1) * sizeof(int));
+
+            for (int cel = 0; cel < N1 * N2; cel++)
+            {
+                //printf("целая часть: %d ", cel / N1);
+                for (int ost = 0; ost < N1 * N2; ost++)
+                {
+                    if (cel / N1 == ost / N1)
+                        MR[cel][ost] = M2[cel % N2][ost % N2];
+                    //printf("остаток: %d \n", ost % N2);
+                    else if (cel % N2 == ost % N2)
+                        MR[cel][ost] = M1[cel / N1][ost / N1];
+                    else if (cel / N1 != ost / N1 && cel % N2 != ost % N2)
+                        MR[cel][ost] = 0;
+                }
+            }
+               
+            printf("\nЭто точно правильно:\n\n");
+            printmatrix(DekartResult, N1 * N2);
+
+            printf("Это новинка:\n\n");
+            printmatrix(MR, 9);
+
+
+            
+            /*printf("\n\n");
+            for (int i = 0; i < N1 * N2; i++)
+            {
+                for (int j = 0; j < N1 * N2; j++)
+                    printf("%d ", DekartResult[i][j]);
+                printf("\n");
+            }*/
+                
             //Возвращение в меню
             goto LabelMenu;
             break;
@@ -325,7 +382,6 @@ int main()
 
         /*Выход из программы*/
         case 1000:
-                exit;
             break;
     }
     
