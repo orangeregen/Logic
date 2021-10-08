@@ -103,86 +103,10 @@ int main()
 	for (int i = 0; i < N2; i++)
 		printlist(listG2[i]);
 	printf("\n\n");
-
-
-
-	///*Отождествление вершин*/
-	//int vertexmin, vertexmax;
-
-	////Считывание номеров вершин
-	//printf("\n\nНомер первой вершины для отождествления:");
-	//scanf_s("%d", &vertexmin);
-	//printf("\nНомер второй вершины для отождествления:");
-	//scanf_s("%d", &vertexmax);
-
-	//while (vertexmin > N1 || vertexmax > N1)
-	//{
-	//	printf("\n\nНичего себе какое число! Такого нет!\n Нужно ввести другое!\n");
-	//	printf("\n\nНомер первой вершины для отождествления:");
-	//	scanf_s("%d", &vertexmin);
-	//	printf("\nНомер второй вершины для отождествления:");
-	//	scanf_s("%d", &vertexmax);
-	//}
-
-	////Определение вершины с меньшим номером
-	//if (vertexmin > vertexmax)
-	//{
-	//	int change = vertexmax;
-	//	vertexmax = vertexmin;
-	//	vertexmin = change;
-	//}
-
-	//vertexmax--; vertexmin--;
-
-	//listG1[vertexmax] = NULL;
-
-	//for (int i = vertexmax + 1; i < N1; i++)
-	//	listG1[i]->vertex--;
-
-	//Node* search = listG1[vertexmin];
-	//while (search->next->vertex < vertexmin)
-	//	search = search->next;
-	//AddNewAfter(search, vertexmin);
-	//
-	//for (int i = 0; i < N1; i++ )
-	//{
-	//	if (i != vertexmax)
-	//	{
-	//	
-	//		Node* bigger = listG1[i];
-	//		while (bigger != FindLast(listG1[i]))
-	//		{
-	//			if (bigger->vertex == vertexmax)
-	//				Delete(&bigger);
-	//			else if (bigger->vertex > vertexmax)
-	//				bigger->vertex = bigger->vertex - 1;
-	//			bigger = bigger->next;
-	//		}
-	//		/*
-	//		if (bigger == NULL)
-	//			goto LabelBLYA;
-	//		else if (bigger->vertex == vertexmax)
-	//		{
-	//			Delete(&bigger);
-	//			bigger = bigger->next;
-	//		}
-	//		else if (bigger->vertex > vertexmax)
-	//		{
-	//			bigger->vertex = bigger->vertex - 1;
-	//			bigger = bigger->next;
-	//		}
-	//		else if (bigger->vertex < vertexmax)
-	//			bigger = bigger->next;*/
-	//	}
-	//}
-
-	///*Вывод списков*/
-	//printf("\n\nСписок смежности графа G1:\n");
-	//for (int i = 0; i < N1; i++)
-	//	if (i != vertexmax)
-	//		printlist(listG1[i]);
-	//printf("\n\n");
+	
+	getchar();
 }
+
 
 /*Функция выводит элементы квадратной матрицы на экран в виде таблицы*/
 /*На вход получает массив и его размер*/
