@@ -241,7 +241,7 @@ void AddLast(Node* head, int data)
     Node* NewNode = (Node*)malloc(sizeof(Node)); //Выделение памяти под новый элемент
     NewNode->vertex = data;
     NewNode->next = NULL;
-    last->next = NewNode; //Указатель на новый элемент записываеся последним элементом списка
+    last->next = NewNode; //Указатель на новый элемент записывается последним элементом списка
 }
 
 
