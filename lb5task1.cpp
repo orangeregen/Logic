@@ -11,10 +11,9 @@ typedef struct Node {
 
 int** G;
 int* visited;
-int N;
+int N, QueueSize = 0;
 
 void printmatrix(int** source, int size);
-void printlist(Node* head);
 void AddFirst(Node** head, int data);
 void AddNewAfter(Node* head, int m);
 Node* FindLast(Node* head);
@@ -23,12 +22,15 @@ void CreateList(int** matrix, Node** head, int N);
 
 void BFS(int num);
 void BFSlist(Node** head, int num);
+void BFSqueue(int num);
 
 int main()
 {
 	SetConsoleCP(1251);
 	SetConsoleOutputCP(1251);
 	
+	clock_t start, end;
+
 	/*Обход в ширину графа, представленного матрицей смежности*/
 	printf("Введите количество вершин графа: ");
 	scanf_s("%d", &N);
@@ -56,22 +58,17 @@ int main()
 			}
 
 	printf("\nМатрица смежности графа G:\n");
-	for (int i = 0; i < N; i++)
-	{
-		for (int j = 0; j < N; j++)
-			printf("%3d ", G[i][j]);
-		printf("\n");
-	}
-
+	printmatrix(G, N);
+	
 	printf("\n\nОбход в ширину графа G, представленного матрицей смежности");
 	int num;
 	printf("\nВведите номер вершины, с которой следует начать обход: ");
 	scanf_s("%d", &num);
 	printf("Порядок обхода: ");
+	start = clock();
 	BFS(num - 1);
-
-	
-
+	end = clock();
+	printf("\n\nВремя обхода: %f сек", ((float)end - (float)start) / CLOCKS_PER_SEC);
 
 	/*Обход в ширину графа, представленного списками смежности*/
 	Node** listG = (Node**)malloc(N * sizeof(Node*));
@@ -79,12 +76,6 @@ int main()
 		listG[i] = NULL;
 
 	CreateList(G, listG, N);
-
-	///*Вывод списков*/
-	//printf("\n\nСписок смежности графа G1:\n");
-	//for (int i = 0; i < N; i++)
-	//		printlist(listG[i]);
-	//printf("\n\n");
 
 	printf("\n\nОбход в ширину графа G, представленного списками смежности");
 	printf("\nВведите номер вершины, с которой следует начать обход: ");
@@ -95,6 +86,22 @@ int main()
 		visited[i] = 0;
 	printf("Порядок обхода: ");
 	BFSlist(listG, num);
+
+
+	/*Обход в ширину графа, представленного матрицей смежности, с помощью самостоятельно реализованной очереди*/
+	printf("\n\nОбход в ширину графа G, представленного матрицей смежности, с помощью самостоятельно реализованной очереди");
+	printf("\nВведите номер вершины, с которой следует начать обход: ");
+	scanf_s("%d", &num);
+	num--;
+
+	for (int i = 0; i < N; i++)
+		visited[i] = 0;
+
+	printf("Порядок обхода: ");
+	start = clock();
+	BFSqueue(num);
+	end = clock();
+	printf("\n\nВремя обхода: %f сек", ((float)end - (float)start) / CLOCKS_PER_SEC);
 }
 
 void BFS(int num)
@@ -139,10 +146,34 @@ void BFSlist(Node** head, int num)
 				}
 				tmp_node[num] = tmp_node[num]->next;
 			}
-
 	}
 }
 
+
+void BFSqueue(int num)
+{
+	Node* QueueHead = NULL;
+	AddFirst(&QueueHead, num);
+	visited[num] = 1;
+
+	while (QueueHead)
+	{
+		num = QueueHead->vertex;
+		QueueHead = QueueHead->next;
+
+		printf("%d ", num + 1);
+
+		for (int i = 0; i < N; i++)
+			if (visited[i] == 0 && G[num][i] == 1)
+			{
+				if (QueueHead == NULL)
+					AddFirst(&QueueHead, i);
+				else
+					AddLast(QueueHead, i);
+				visited[i] = 1;
+			}
+	}
+}
 
 /*Функция выводит элементы квадратной матрицы на экран в виде таблицы*/
 /*На вход получает массив и его размер*/
@@ -210,16 +241,4 @@ void CreateList(int** matrix, Node** head, int N)
 			if (matrix[i][j] == 1)
 				AddLast(head[i], j); //Добавляем в конец списка вершин, смежных с iой вершиной, вершину j
 	}
-}
-
-void printlist(Node* head)
-{
-	printf("\n");
-	while (head) {
-		printf("%2d", head->vertex + 1);
-		if (head->next != NULL)
-			printf(" ->");
-		head = head->next;
-	}
-	printf("\n");
 }
