@@ -11,7 +11,7 @@ typedef struct Node {
 
 int** G;
 int* visited;
-int N, QueueSize = 0;
+int N;
 
 void printmatrix(int** source, int size);
 void AddFirst(Node** head, int data);
