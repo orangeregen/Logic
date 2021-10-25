@@ -94,15 +94,6 @@ int main()
 	num--;
 	DistanceBFSlist(listG, num);
 
-	/*for (int i = 1; i <= maxdepth; i++)
-	{
-		printf("\n\nВершины уровня %d: ", i);
-		for (int j = 0; j < N; j++)
-		{
-			if (visited[j] == i)
-				printf("%d ", j + 1);
-		}
-	}*/
 	printdistance(maxdepth);
 
 	for (int i = 0; i < N; i++)
