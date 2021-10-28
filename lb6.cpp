@@ -265,10 +265,10 @@ void printdistance(int maxdepth)
 /*Функция добавляет элемент в начало списка*/
 void AddFirst(Node** head, int data)
 {
-	Node* NewNode = (Node*)malloc(sizeof(Node)); // создаем новый элемент
+	Node* NewNode = (Node*)malloc(sizeof(Node));
 	NewNode->vertex = data;
-	NewNode->next = (*head); //присваиваем адрес следующего элемента
-	(*head) = NewNode; //Присваиваем указателю head новое значение
+	NewNode->next = (*head); 
+	(*head) = NewNode; 
 }
 
 
@@ -297,11 +297,11 @@ Node* FindLast(Node* elem)
 /*Функция добавляет новый элемент в конец списка*/
 void AddLast(Node* head, int data)
 {
-	Node* last = FindLast(head); //Получение адреса последнего элемента списка
-	Node* NewNode = (Node*)malloc(sizeof(Node)); //Выделение памяти под новый элемент
+	Node* last = FindLast(head);
+	Node* NewNode = (Node*)malloc(sizeof(Node));
 	NewNode->vertex = data;
 	NewNode->next = NULL;
-	last->next = NewNode; //Указатель на новый элемент записываеся последним элементом списка
+	last->next = NewNode;
 }
 
 
@@ -310,9 +310,9 @@ void CreateList(int** matrix, Node** head, int N)
 {
 	for (int i = 0; i < N; i++)
 	{
-		AddFirst(&head[i], i); //Создание первых элементов списков
+		AddFirst(&head[i], i);
 		for (int j = 0; j < N; j++)
 			if (matrix[i][j] == 1)
-				AddLast(head[i], j); //Добавляем в конец списка вершин, смежных с iой вершиной, вершину j
+				AddLast(head[i], j);
 	}
 }
