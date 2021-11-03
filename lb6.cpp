@@ -100,7 +100,7 @@ int main()
 
 	/*Поиск расстояний в графе, представленном матрицей смежности, на основе обхода в глубину*/
 	for (int i = 0; i < N; i++)
-		visited[i] = -1;
+		visited[i] = MAXINT;
 	maxdepth = 0;
 
 	printf("\n\n\nПоиск расстояний на основе обхода в глубину графа, представленного матрицей смежности");
@@ -112,7 +112,7 @@ int main()
 	end = clock();
 
 	for (int i = 0; i < N; i++)
-		if (visited[i] > maxdepth)
+		if (visited[i] > maxdepth && maxdepth != MAXINT)
 			maxdepth = visited[i];
 
 	printf("\n\nВремя работы: %f сек", ((float)end - (float)start) / CLOCKS_PER_SEC);
@@ -121,7 +121,7 @@ int main()
 
 	/*Поиск расстояний в графе, представленном списками смежности, на основе обхода в глубину*/
 	for (int i = 0; i < N; i++)
-		visited[i] = -1;
+		visited[i] = MAXINT;
 	maxdepth = 0;
 
 	Node** listGRAPH = (Node**)malloc(N * sizeof(Node*));
@@ -139,7 +139,7 @@ int main()
 	end = clock();
 
 	for (int i = 0; i < N; i++)
-		if (visited[i] > maxdepth)
+		if (visited[i] > maxdepth && maxdepth != MAXINT)
 			maxdepth = visited[i];
 
 	printf("\n\nВремя работы: %f сек", ((float)end - (float)start) / CLOCKS_PER_SEC);
@@ -204,12 +204,8 @@ void DistanceDFS(int num, int depth)
 	visited[num] = depth;
 
 	for (int i = 0; i < N; i++)
-	{
-		if (G[num][i] == 1 && visited[i] == -1)
-			DistanceDFS(i, depth + 1);
 		if (G[num][i] == 1 && visited[i] > depth)
 			DistanceDFS(i, depth + 1);
-	}
 }
 
 
@@ -223,8 +219,6 @@ void DistanceDFSlist(Node** list, int num, int depth)
 
 	while (tmp_node)
 	{
-		if (visited[tmp_node->vertex] == -1)
-			DistanceDFSlist(list, tmp_node->vertex, depth + 1);
 		if (visited[tmp_node->vertex] > depth + 1)
 			DistanceDFSlist(list, tmp_node->vertex, depth + 1);
 		tmp_node = tmp_node->next;
