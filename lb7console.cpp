@@ -175,6 +175,7 @@ void printmatrix(int** source, int size)
 	}
 }
 
+/*Функция выводит кратчайшие пути*/
 void printdistance(int* visited, int N)
 {
 	for (int i = 0; i < N; i++)
