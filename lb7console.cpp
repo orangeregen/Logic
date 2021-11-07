@@ -73,7 +73,7 @@ int main(int argc, char* argv[])
 					else
 					{
 						if (rand() % 10 < 3)
-							G[i][j] = rand() % 2;
+							G[i][j] = 1;
 						else
 							G[i][j] = 0;
 					}
@@ -87,7 +87,7 @@ int main(int argc, char* argv[])
 					else
 					{
 						if (rand() % 10 < 3)
-							G[i][j] = rand() % 2;
+							G[i][j] = 1;
 						else
 							G[i][j] = 0;
 						G[j][i] = G[i][j];
@@ -133,7 +133,7 @@ int main(int argc, char* argv[])
 
 			if (check == -1)
 				break;
-			else if (strcmp(argv[1], "взвешенный") == 0)
+			else
 			{
 				printf("Вершина старта: %d", check);
 				DistanceBFS(check - 1, G, visited, N);
@@ -182,6 +182,6 @@ void printdistance(int* visited, int N)
 		if (visited[i] == MAXINT)
 			printf("\nПути до вершины %d не существует", i + 1);
 		else if (visited[i] != 0)
-			printf("\nКатчайший путь до вершины %d: %d", i + 1, visited[i]);
+			printf("\nКратчайший путь до вершины %d: %d", i + 1, visited[i]);
 	}
 }
