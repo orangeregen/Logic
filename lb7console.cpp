@@ -53,7 +53,7 @@ int main(int argc, char* argv[])
 
 		srand(time(NULL));
 
-		//printf("\nN = %d, flagtype = %d, flagorient = %d", N, flagtype, flagorient);
+	
 		if (flagtype == 1 && flagorient == 1)
 		{
 			for (int i = 0; i < N; i++)
