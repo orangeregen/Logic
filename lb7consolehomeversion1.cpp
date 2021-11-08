@@ -143,7 +143,6 @@ int main(int argc, char* argv[])
 	}
 	return 0;
 }
-
 /*Поиск расстояний во взвешенном графе, представленном матрицей смежности, на основе обхода в ширину*/
 void DistanceBFS(int num, int** G, int* visited, int N)
 {
