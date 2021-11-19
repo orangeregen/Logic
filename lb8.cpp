@@ -4,16 +4,17 @@
 #include <queue>
 using namespace std;
 
-int** GS, ** GI;
-int* dist, * ecc, * deg;
-int N, M = 0, diam = -1, rad = MAXINT;
-int num;
-
-void DistanceBFS(int num, int** G, int* visited, int N);
+void SmDistanceBFS(int num, int** G, int* visited, int N);
+void InDistanceBFS(int num, int** G, int* visited, int N, int M);
 void printmatrix(int** source, int size1, int size2);
 int main()
 
 {
+	int** GS, ** GI;
+	int* dist, * ecc, * deg;
+	int N, M = 0, diam = -1, rad = MAXINT;
+	int num;
+
 	SetConsoleCP(1251);
 	SetConsoleOutputCP(1251);
 
@@ -61,7 +62,7 @@ int main()
 	for (int i = 0; i < N; i++)
 	{
 		printf("\n\nРасстояния от вершины %d до остальных: ", i + 1);
-		DistanceBFS(i, GS, dist, N);
+		SmDistanceBFS(i, GS, dist, N);
 		for (int j = 0; j < N; j++)
 		{
 			if (dist[j] != MAXINT)
@@ -74,7 +75,7 @@ int main()
 				printf(" - ");
 		}
 
-		printf("\nЭксцентриситет вершины %d: %d ", i+1, ecc[i]);
+		printf("\nЭксцентриситет вершины %d: %d ", i + 1, ecc[i]);
 
 		if (ecc[i] < rad && ecc[i] > 0)
 			rad = ecc[i];
@@ -101,11 +102,9 @@ int main()
 			printf("%d ", i + 1);
 
 	for (int i = 0; i < N; i++)
-	{
 		for (int j = 0; j < N; j++)
 			if (GS[i][j] != 0)
 				deg[i]++;
-	}
 
 	/*Поиск изолированных, концевых и доминирующих вершин; вывод результатов на экран*/
 	printf("\n\nИзолированные вершины: ");
@@ -124,7 +123,6 @@ int main()
 			printf("%d ", i + 1);
 
 
-
 	/*Задание 2: поиск радиуса, диаметра, множеств периферийных и центральных вершин*/
 	/*Граф представлен матрицей инцидентности GI[N][M], где N - количество вершин, M - количество ребер*/
 	GI = (int**)malloc(N * sizeof(int*));
@@ -135,6 +133,10 @@ int main()
 		for (int j = 0; j < M; j++)
 			GI[i][j] = 0;
 
+	for (int i = 0; i < N; i++)
+		ecc[i] = 0;
+
+	rad = MAXINT; diam = -1;
 	int m = 0;
 	for (int i = 0; i < N; i++)
 		for (int j = i; j < N; j++)
@@ -148,9 +150,41 @@ int main()
 	printf("\n\nМатрица инцидентности графа G: \n");
 	printmatrix(GI, N, M);
 
+	for (int i = 0; i < N; i++)
+	{
+		InDistanceBFS(i, GI, dist, N, M);
+		for (int j = 0; j < N; j++)
+				if (dist[j] > ecc[i] && dist[j] != MAXINT)
+					ecc[i] = dist[j];
+
+		if (ecc[i] < rad && ecc[i] > 0)
+			rad = ecc[i];
+		if (ecc[i] > diam)
+			diam = ecc[i];
+
+		dist = (int*)malloc(N * sizeof(int));
+		for (int i = 0; i < N; i++)
+			dist[i] = MAXINT;
+	}
+
+	printf("\n\nРадиус: %d", rad);
+	printf("\nДиаметр: %d", diam);
+
+	/*Поиск множеств центральных и периферийных вершин*/
+	printf("\n\nЦентральные вершины: ");
+	for (int i = 0; i < N; i++)
+		if (ecc[i] == rad)
+			printf("%d ", i + 1);
+
+	printf("\nПериферийные вершины: ");
+	for (int i = 0; i < N; i++)
+		if (ecc[i] == diam)
+			printf("%d ", i + 1);
+
+	free(GS); free(GI); free(dist); free(ecc); free(deg);
 }
 
-void DistanceBFS(int num, int** G, int* visited, int N)
+void SmDistanceBFS(int num, int** G, int* visited, int N)
 {
 	queue <int> q;
 
@@ -166,6 +200,27 @@ void DistanceBFS(int num, int** G, int* visited, int N)
 				q.push(i);
 				visited[i] = visited[num] + G[num][i];
 			}
+	}
+}
+
+void InDistanceBFS(int num, int** G, int* visited, int N, int M)
+{
+	queue <int> q;
+
+	q.push(num);	
+	visited[num] = 0;
+	while (!q.empty())
+	{
+		num = q.front();
+		q.pop();
+		for (int i = 0; i < M; i++)
+			if (G[num][i] > 0)
+				for (int k = 0; k < N; k++)
+					if (G[k][i] > 0 && visited[k] > visited[num] + G[num][i])
+					{
+						q.push(k);
+						visited[k] = visited[num] + G[num][i];
+					}
 	}
 }
 
